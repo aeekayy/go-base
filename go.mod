@@ -1,4 +1,4 @@
-module github.com/dhax/go-base
+module github.com/aeekayy/go-base
 
 require (
 	github.com/PuerkitoBio/goquery v1.4.1 // indirect

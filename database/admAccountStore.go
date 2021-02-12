@@ -4,12 +4,13 @@ import (
 	"errors"
 	"net/url"
 
-	"github.com/dhax/go-base/auth/jwt"
-	"github.com/dhax/go-base/auth/pwdless"
-	"github.com/dhax/go-base/models"
+	"github.com/aeekayy/go-base/auth/jwt"
+	"github.com/aeekayy/go-base/auth/pwdless"
+	"github.com/aeekayy/go-base/models"
 	"github.com/go-pg/pg"
 	"github.com/go-pg/pg/orm"
 	"github.com/go-pg/pg/urlvalues"
+	"github.com/google/uuid"
 )
 
 var (
@@ -98,7 +99,7 @@ func (s *AdmAccountStore) Create(a *pwdless.Account) error {
 }
 
 // Get account by ID.
-func (s *AdmAccountStore) Get(id int) (*pwdless.Account, error) {
+func (s *AdmAccountStore) Get(id uuid.UUID) (*pwdless.Account, error) {
 	a := pwdless.Account{ID: id}
 	err := s.db.Select(&a)
 	return &a, err

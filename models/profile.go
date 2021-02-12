@@ -7,19 +7,25 @@ import (
 	"github.com/go-ozzo/ozzo-validation"
 
 	"github.com/go-pg/pg/orm"
+	"github.com/google/uuid"
 )
 
 // Profile holds specific application settings linked to an Account.
 type Profile struct {
-	ID        int       `json:"-"`
-	AccountID int       `json:"-"`
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	ID        uuid.UUID	`json:"-"`
+	AccountID uuid.UUID     `json:"-"`
+	UpdatedAt time.Time	`json:"updated_at,omitempty"`
 
 	Theme string `json:"theme,omitempty"`
 }
 
 // BeforeInsert hook executed before database insert operation.
 func (p *Profile) BeforeInsert(db orm.DB) error {
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		return err
+	}
+	p.ID = uuid
 	p.UpdatedAt = time.Now()
 	return nil
 }

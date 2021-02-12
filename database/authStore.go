@@ -3,9 +3,10 @@ package database
 import (
 	"time"
 
-	"github.com/dhax/go-base/auth/jwt"
-	"github.com/dhax/go-base/auth/pwdless"
+	"github.com/aeekayy/go-base/auth/jwt"
+	"github.com/aeekayy/go-base/auth/pwdless"
 	"github.com/go-pg/pg"
+	"github.com/google/uuid"
 )
 
 // AuthStore implements database operations for account pwdlessentication.
@@ -21,7 +22,7 @@ func NewAuthStore(db *pg.DB) *AuthStore {
 }
 
 // GetAccount returns an account by ID.
-func (s *AuthStore) GetAccount(id int) (*pwdless.Account, error) {
+func (s *AuthStore) GetAccount(id uuid.UUID) (*pwdless.Account, error) {
 	a := pwdless.Account{ID: id}
 	err := s.db.Model(&a).
 		Column("account.*").

@@ -8,7 +8,7 @@ import (
 
 const accountTable = `
 CREATE TABLE accounts (
-id serial NOT NULL,
+id uuid DEFAULT uuid_generate_v4(),
 created_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
 updated_at timestamp with time zone DEFAULT current_timestamp,
 last_login timestamp with time zone NOT NULL DEFAULT current_timestamp,
@@ -21,7 +21,7 @@ PRIMARY KEY (id)
 
 const tokenTable = `
 CREATE TABLE tokens (
-id serial NOT NULL,
+id uuid DEFAULT uuid_generate_v4(),
 created_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
 updated_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
 account_id int NOT NULL REFERENCES accounts(id),

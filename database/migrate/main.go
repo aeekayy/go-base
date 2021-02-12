@@ -4,7 +4,7 @@ package migrate
 import (
 	"log"
 
-	"github.com/dhax/go-base/database"
+	"github.com/aeekayy/go-base/database"
 	"github.com/go-pg/migrations"
 	"github.com/go-pg/pg"
 )

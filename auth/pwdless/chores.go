@@ -3,7 +3,7 @@ package pwdless
 import (
 	"time"
 
-	"github.com/dhax/go-base/logging"
+	"github.com/aeekayy/go-base/logging"
 )
 
 func (rs *Resource) choresTicker() {

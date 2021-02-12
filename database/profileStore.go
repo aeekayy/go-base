@@ -1,8 +1,9 @@
 package database
 
 import (
-	"github.com/dhax/go-base/models"
+	"github.com/aeekayy/go-base/models"
 	"github.com/go-pg/pg"
+	"github.com/google/uuid"
 )
 
 // ProfileStore implements database operations for profile management.
@@ -18,7 +19,7 @@ func NewProfileStore(db *pg.DB) *ProfileStore {
 }
 
 // Get gets an profile by account ID.
-func (s *ProfileStore) Get(accountID int) (*models.Profile, error) {
+func (s *ProfileStore) Get(accountID uuid.UUID) (*models.Profile, error) {
 	p := models.Profile{AccountID: accountID}
 	_, err := s.db.Model(&p).
 		Where("account_id = ?", accountID).

@@ -1,10 +1,11 @@
 package database
 
 import (
-	"github.com/dhax/go-base/auth/jwt"
-	"github.com/dhax/go-base/auth/pwdless"
-	"github.com/dhax/go-base/models"
+	"github.com/aeekayy/go-base/auth/jwt"
+	"github.com/aeekayy/go-base/auth/pwdless"
+	"github.com/aeekayy/go-base/models"
 	"github.com/go-pg/pg"
+	"github.com/google/uuid"
 )
 
 // AccountStore implements database operations for account management by user.
@@ -20,7 +21,7 @@ func NewAccountStore(db *pg.DB) *AccountStore {
 }
 
 // Get an account by ID.
-func (s *AccountStore) Get(id int) (*pwdless.Account, error) {
+func (s *AccountStore) Get(id uuid.UUID) (*pwdless.Account, error) {
 	a := pwdless.Account{ID: id}
 	err := s.db.Model(&a).
 		Where("account.id = ?id").
