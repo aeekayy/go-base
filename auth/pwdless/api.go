@@ -19,11 +19,12 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/mssola/user_agent"
 	"github.com/sirupsen/logrus"
+	googleUUID "github.com/google/uuid"
 )
 
 // AuthStorer defines database operations on accounts and tokens.
 type AuthStorer interface {
-	GetAccount(id int) (*Account, error)
+	GetAccount(id googleUUID.UUID) (*Account, error)
 	GetAccountByEmail(email string) (*Account, error)
 	UpdateAccount(a *Account) error
 

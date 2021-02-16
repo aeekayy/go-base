@@ -21,10 +21,7 @@ type Profile struct {
 
 // BeforeInsert hook executed before database insert operation.
 func (p *Profile) BeforeInsert(db orm.DB) error {
-	uuid, err := uuid.NewV4()
-	if err != nil {
-		return err
-	}
+	uuid := uuid.New()
 	p.ID = uuid
 	p.UpdatedAt = time.Now()
 	return nil

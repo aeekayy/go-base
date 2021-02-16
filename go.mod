@@ -15,6 +15,7 @@ require (
 	github.com/go-pg/migrations v6.2.0+incompatible
 	github.com/go-pg/pg v7.1.7+incompatible
 	github.com/gofrs/uuid v3.2.0+incompatible
+	github.com/google/uuid v1.2.0
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/jaytaylor/html2text v0.0.0-20200220170450-61d9dc4d7195
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect

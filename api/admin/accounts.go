@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"net/http"
-	"strconv"
 
 	"github.com/aeekayy/go-base/auth/pwdless"
 	"github.com/aeekayy/go-base/database"
@@ -12,6 +11,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+	"github.com/google/uuid"
 )
 
 // The list of error types returned from account resource.
@@ -23,7 +23,7 @@ var (
 type AccountStore interface {
 	List(*database.AccountFilter) ([]pwdless.Account, int, error)
 	Create(*pwdless.Account) error
-	Get(id int) (*pwdless.Account, error)
+	Get(id uuid.UUID) (*pwdless.Account, error)
 	Update(*pwdless.Account) error
 	Delete(*pwdless.Account) error
 }
@@ -55,7 +55,7 @@ func (rs *AccountResource) router() *chi.Mux {
 
 func (rs *AccountResource) accountCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		id, err := strconv.Atoi(chi.URLParam(r, "accountID"))
+		id, err := uuid.Parse(chi.URLParam(r, "accountID"))
 		if err != nil {
 			render.Render(w, r, ErrBadRequest)
 			return

@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/google/uuid"
 )
 
 // The list of error types returned from account resource.
@@ -19,7 +20,7 @@ var (
 
 // ProfileStore defines database operations for a profile.
 type ProfileStore interface {
-	Get(accountID int) (*models.Profile, error)
+	Get(accountID uuid.UUID) (*models.Profile, error)
 	Update(p *models.Profile) error
 }
 
@@ -46,7 +47,7 @@ func (rs *ProfileResource) router() *chi.Mux {
 func (rs *ProfileResource) profileCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		claims := jwt.ClaimsFromCtx(r.Context())
-		p, err := rs.Store.Get(claims.ID)
+		p, err := rs.Store.Get(claims.AccountID)
 		if err != nil {
 			log(r).WithField("profileCtx", claims.Sub).Error(err)
 			render.Render(w, r, ErrInternalServerError)

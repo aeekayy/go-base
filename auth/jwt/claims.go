@@ -4,11 +4,13 @@ import (
 	"errors"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/google/uuid"
 )
 
 // AppClaims represent the claims parsed from JWT access token.
 type AppClaims struct {
 	ID    int      `json:"id,omitempty"`
+	AccountID uuid.UUID `json:"account_id,omitempty"`
 	Sub   string   `json:"sub,omitempty"`
 	Roles []string `json:"roles,omitempty"`
 	jwt.StandardClaims

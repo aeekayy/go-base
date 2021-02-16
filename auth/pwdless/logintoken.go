@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/spf13/viper"
+	"github.com/google/uuid"
 )
 
 var (
@@ -16,7 +17,7 @@ var (
 // LoginToken is an in-memory saved token referencing an account ID and an expiry date.
 type LoginToken struct {
 	Token     string
-	AccountID int
+	AccountID uuid.UUID
 	Expiry    time.Time
 }
 
@@ -41,7 +42,7 @@ func NewLoginTokenAuth() (*LoginTokenAuth, error) {
 }
 
 // CreateToken creates an in-memory login token referencing account ID. It returns a token containing a random tokenstring and expiry date.
-func (a *LoginTokenAuth) CreateToken(id int) LoginToken {
+func (a *LoginTokenAuth) CreateToken(id uuid.UUID) LoginToken {
 	lt := LoginToken{
 		Token:     randStringBytes(a.loginTokenLength),
 		AccountID: id,
@@ -53,10 +54,11 @@ func (a *LoginTokenAuth) CreateToken(id int) LoginToken {
 }
 
 // GetAccountID looks up the token by tokenstring and returns the account ID or error if token not found or expired.
-func (a *LoginTokenAuth) GetAccountID(token string) (int, error) {
+func (a *LoginTokenAuth) GetAccountID(token string) (uuid.UUID, error) {
 	lt, exists := a.get(token)
 	if !exists || time.Now().After(lt.Expiry) {
-		return 0, errTokenNotFound
+		uuid, _ := uuid.Parse("00000000-0000-0000-0000-000000000000")
+		return uuid, errTokenNotFound
 	}
 	a.delete(lt.Token)
 	return lt.AccountID, nil

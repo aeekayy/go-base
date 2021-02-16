@@ -8,12 +8,12 @@ import (
 
 const bootstrapAdminAccount = `
 INSERT INTO accounts (id, email, name, active, roles)
-VALUES (DEFAULT, 'admin@boot.io', 'Admin Boot', true, '{admin}')
+VALUES ('00000000-0000-0000-0000-000000000001', 'admin@boot.io', 'Admin Boot', true, '{admin}')
 `
 
 const bootstrapUserAccount = `
 INSERT INTO accounts (id, email, name, active)
-VALUES (DEFAULT, 'user@boot.io', 'User Boot', true)
+VALUES ('00000000-0000-0000-0000-000000000002', 'user@boot.io', 'User Boot', true)
 `
 
 func init() {

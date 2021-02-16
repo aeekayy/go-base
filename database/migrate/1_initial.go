@@ -6,6 +6,10 @@ import (
 	"github.com/go-pg/migrations"
 )
 
+const installUUID = `
+CREATE EXTENSION if not exists "uuid-ossp";
+`
+
 const accountTable = `
 CREATE TABLE accounts (
 id uuid DEFAULT uuid_generate_v4(),
@@ -24,7 +28,7 @@ CREATE TABLE tokens (
 id uuid DEFAULT uuid_generate_v4(),
 created_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
 updated_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
-account_id int NOT NULL REFERENCES accounts(id),
+account_id uuid NOT NULL REFERENCES accounts(id),
 token text NOT NULL UNIQUE,
 expiry timestamp with time zone NOT NULL,
 mobile boolean NOT NULL DEFAULT FALSE,
@@ -34,6 +38,7 @@ PRIMARY KEY (id)
 
 func init() {
 	up := []string{
+		installUUID,
 		accountTable,
 		tokenTable,
 	}

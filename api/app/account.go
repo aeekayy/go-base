@@ -13,6 +13,7 @@ import (
 
 	"github.com/aeekayy/go-base/auth/jwt"
 	"github.com/aeekayy/go-base/auth/pwdless"
+	"github.com/google/uuid"
 )
 
 // The list of error types returned from account resource.
@@ -22,7 +23,7 @@ var (
 
 // AccountStore defines database operations for account.
 type AccountStore interface {
-	Get(id int) (*pwdless.Account, error)
+	Get(id uuid.UUID) (*pwdless.Account, error)
 	Update(*pwdless.Account) error
 	Delete(*pwdless.Account) error
 	UpdateToken(*jwt.Token) error
@@ -57,8 +58,8 @@ func (rs *AccountResource) router() *chi.Mux {
 func (rs *AccountResource) accountCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		claims := jwt.ClaimsFromCtx(r.Context())
-		log(r).WithField("account_id", claims.ID)
-		account, err := rs.Store.Get(claims.ID)
+		log(r).WithField("account_id", claims.AccountID)
+		account, err := rs.Store.Get(claims.AccountID)
 		if err != nil {
 			// account deleted while access token still valid
 			render.Render(w, r, ErrUnauthorized)

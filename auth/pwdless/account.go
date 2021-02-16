@@ -1,6 +1,7 @@
 package pwdless
 
 import (
+	"math/big"
 	"strings"
 	"time"
 
@@ -9,11 +10,12 @@ import (
 	"github.com/go-pg/pg/orm"
 
 	"github.com/aeekayy/go-base/auth/jwt"
+	"github.com/google/uuid"
 )
 
 // Account represents an authenticated application user
 type Account struct {
-	ID        int       `json:"id"`
+	ID        uuid.UUID      `json:"id"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	LastLogin time.Time `json:"last_login,omitempty"`
@@ -28,6 +30,8 @@ type Account struct {
 
 // BeforeInsert hook executed before database insert operation.
 func (a *Account) BeforeInsert(db orm.DB) error {
+	uuid := uuid.New()
+	a.ID = uuid
 	now := time.Now()
 	if a.CreatedAt.IsZero() {
 		a.CreatedAt = now
@@ -66,8 +70,11 @@ func (a *Account) CanLogin() bool {
 
 // Claims returns the account's claims to be signed
 func (a *Account) Claims() jwt.AppClaims {
+	var i big.Int
+	i.SetString(strings.Replace(a.ID.String(), "-", "", 4), 16)
 	return jwt.AppClaims{
-		ID:    a.ID,
+		ID:	int(i.Int64()),
+		AccountID: a.ID,
 		Sub:   a.Name,
 		Roles: a.Roles,
 	}

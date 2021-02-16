@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/go-pg/pg/orm"
+	"github.com/google/uuid"
 )
 
 // Token holds refresh jwt information.
@@ -11,7 +12,7 @@ type Token struct {
 	ID        int       `json:"id,omitempty"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	AccountID int       `json:"-"`
+	AccountID uuid.UUID `json:"-"`
 
 	Token      string    `json:"-"`
 	Expiry     time.Time `json:"-"`
